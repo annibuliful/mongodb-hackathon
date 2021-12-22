@@ -1,0 +1,23 @@
+{
+  "root": "libs/graphql-client",
+  "sourceRoot": "libs/graphql-client/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/graphql-client/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/graphql-client"],
+      "options": {
+        "jestConfig": "libs/graphql-client/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

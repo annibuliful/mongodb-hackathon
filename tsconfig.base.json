@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@tadchud/graphql-client": ["libs/graphql-client/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

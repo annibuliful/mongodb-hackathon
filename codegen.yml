@@ -1,0 +1,18 @@
+overwrite: true
+generates:
+  ./libs/graphql-client/src/graphql.generated.ts:
+    schema: http://localhost:3030/graphql
+    documents:
+      - ./libs/graphql-client/src/graphql/**/*.gql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql
+    config:
+      withHooks: true
+      withMutationFn: true
+      withHOC: false
+      withComponent: false
+      namingConvention:
+        typeNames: pascal-case#pascalCase
+        transformUnderscore: true
