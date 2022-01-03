@@ -29,10 +29,10 @@ export class ShopService {
         data: {
           ...data,
           slug: data.slug ?? data.name.replace(' ', '-'),
-          ownerId,
         },
         where: {
           id: data.id,
+          ownerId,
         },
       });
     } catch (error) {
