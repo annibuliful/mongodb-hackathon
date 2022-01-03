@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { ServiceError } from '../../shared/error/service.error';
 import { PrismaService } from '../../shared/services/prisma.service';
-import { CreateShopInput } from './dto/shop.input';
+import { CreateShopInput, UpdateShopInput } from './dto/shop.input';
 
 @Injectable()
 export class ShopService {
@@ -16,6 +16,23 @@ export class ShopService {
           ...data,
           slug: data.slug ?? data.name.replace(' ', '-'),
           ownerId,
+        },
+      });
+    } catch (error) {
+      throw new ServiceError(this.name, error);
+    }
+  }
+
+  update(ownerId: string, data: UpdateShopInput) {
+    try {
+      return this.prismaService.shop.update({
+        data: {
+          ...data,
+          slug: data.slug ?? data.name.replace(' ', '-'),
+          ownerId,
+        },
+        where: {
+          id: data.id,
         },
       });
     } catch (error) {
