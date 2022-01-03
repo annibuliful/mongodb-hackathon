@@ -12,7 +12,11 @@ export class ShopService {
   create(ownerId: string, data: CreateShopInput) {
     try {
       return this.prismaService.shop.create({
-        data: { ...data, slug: data.name.replace(' ', '-'), ownerId },
+        data: {
+          ...data,
+          slug: data.slug ?? data.name.replace(' ', '-'),
+          ownerId,
+        },
       });
     } catch (error) {
       throw new ServiceError(this.name, error);

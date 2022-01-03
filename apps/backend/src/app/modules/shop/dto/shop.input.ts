@@ -6,5 +6,8 @@ export class CreateShopInput {
   name: string;
 
   @Field(() => String, { nullable: true })
+  slug: string;
+
+  @Field(() => String, { nullable: true })
   logo?: string;
 }
