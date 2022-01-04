@@ -39,4 +39,12 @@ export class ShopService {
       throw new ServiceError(this.name, error);
     }
   }
+
+  getByOwnerId(ownerId: string) {
+    try {
+      return this.prismaService.shop.findFirst({ where: { ownerId } });
+    } catch (error) {
+      throw new ServiceError(this.name, error);
+    }
+  }
 }
