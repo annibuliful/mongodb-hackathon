@@ -8,6 +8,15 @@ generator client {
   previewFeatures = ["mongoDb"]
 }
 
+enum FabricType {
+  TEXT
+  IMAGE
+  TEMPLATE
+  COLORZONE
+  GRID_GUIDELINE
+  PATTERNZONE
+}
+
 model User {
   id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
   email     String   @unique
@@ -18,12 +27,74 @@ model User {
 }
 
 model Shop {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  name      String   @unique
-  slug      String   @unique
-  ownerId   String   @unique
+  id        String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name      String    @unique
+  slug      String    @unique
+  ownerId   String    @unique
   logo      String?
-  owner     User?    @relation(fields: [ownerId], references: [id])
-  updatedAt DateTime @default(now()) @updatedAt
-  createdAt DateTime @default(now())
+  owner     User?     @relation(fields: [ownerId], references: [id])
+  updatedAt DateTime  @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  product   Product[]
+}
+
+model Product {
+  id            String                @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name          String
+  logo          String?
+  template      String
+  updatedAt     DateTime              @default(now()) @updatedAt
+  createdAt     DateTime              @default(now())
+  shopId        String
+  shop          Shop                  @relation(fields: [shopId], references: [id])
+  productDesign ProductCustomDesign[]
+}
+
+model ProductCustomDesign {
+  id          String        @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  productId   String
+  product     Product       @relation(fields: [productId], references: [id])
+  textDesign  TextDesign[]
+  imageDesign ImageDesign[]
+}
+
+model TextDesign {
+  id         String               @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  design     ProductCustomDesign? @relation(fields: [designId], references: [id])
+  designId   String
+  type       FabricType           @default(TEXT)
+  top        Float
+  left       Float
+  angle      Float
+  width      Float
+  height     Float
+  scaleX     Float                @default(1)
+  scaleY     Float                @default(1)
+  opacity    Float
+  text       String
+  fontFamily String
+  fontSize   Float                @default(19)
+  fontStyle  String?
+  fill       String               @default("black")
+  updatedAt  DateTime             @updatedAt
+  createdAt  DateTime             @default(now())
+}
+
+model ImageDesign {
+  id        String               @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  design    ProductCustomDesign? @relation(fields: [designId], references: [id])
+  designId  String
+  fileType  String
+  scaleX    Float                @default(1)
+  scaleY    Float                @default(1)
+  src       String
+  type      FabricType           @default(IMAGE)
+  top       Float
+  left      Float
+  angle     Float
+  width     Float
+  height    Float
+  opacity   Float
+  updatedAt DateTime             @updatedAt
+  createdAt DateTime             @default(now())
 }
